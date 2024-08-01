@@ -41,9 +41,9 @@ public class UserController {
 		return new ResponseEntity<>(userList, HttpStatus.OK);
 	} 
 	
-	@GetMapping("/find/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
-		User user = userService.findUser(id);
+	@PostMapping("/findSingleUser")
+	public ResponseEntity<User> getUserById(@RequestBody LoginRequest loginRequest){
+		User user = userService.findUser(loginRequest.getUsername(), loginRequest.getPassword());
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	} 
 	
@@ -51,7 +51,7 @@ public class UserController {
     public ResponseEntity<Response> loginUser(@RequestBody LoginRequest loginRequest) {
         
         try {
-        	User user = userService.verifyUserCredentials(loginRequest.getUsername(), loginRequest.getPassword());
+        	User user = userService.findUser(loginRequest.getUsername(), loginRequest.getPassword());
         	if(user.getRole().equals("admin")){
         		return new ResponseEntity<>(new Response("admin"), HttpStatus.OK);
         	}

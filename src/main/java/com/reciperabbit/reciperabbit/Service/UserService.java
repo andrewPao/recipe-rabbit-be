@@ -35,23 +35,17 @@ public class UserService {
 		return userRepo.save(user);			
 	}
 	
-	public User findUser(Long id) {
-		return userRepo.findUserById(id).orElseThrow(()-> new UserNotFoundException ("User by id" + id + "was not found."));
+	public User findUser(String username, String password) {
+		User user = userRepo.findByNameAndPassword(username, password);
+		 if (user == null) {
+	            throw new UserNotFoundException("User not found or Incorrect Password");
+	        }
+		return user;
 	}
 	
 	@Transactional
 	public void deleteUser(Long id) {
 		userRepo.deleteUserById(id);
 	}
-	
-	 public User verifyUserCredentials(String username, String password) throws UserNotFoundException {
-	        User user = userRepo.findByNameAndPassword(username, password);
-	        if (user == null) {
-	            throw new UserNotFoundException("User not found or Incorrect Password");
-	        }
-	        
-	        return user;
-	    }
-	
 	
 }
