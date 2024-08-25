@@ -43,8 +43,12 @@ public class UserController {
 	
 	@PostMapping("/findSingleUser")
 	public ResponseEntity<User> getUserById(@RequestBody LoginRequest loginRequest){
-		User user = userService.findUser(loginRequest.getUsername(), loginRequest.getPassword());
-		return new ResponseEntity<>(user, HttpStatus.OK);
+		 try {
+		        User user = userService.findUser(loginRequest.getUsername(), loginRequest.getPassword());
+		        return new ResponseEntity<>(user, HttpStatus.OK);
+		    } catch (UserNotFoundException ex) {
+		        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		    }
 	} 
 	
 	@PostMapping("/login")

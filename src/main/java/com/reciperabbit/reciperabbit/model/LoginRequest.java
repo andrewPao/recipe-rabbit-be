@@ -4,6 +4,10 @@ public class LoginRequest {
 	String username;
 	String password;
 	
+	public LoginRequest() {
+		
+	}
+	
 	public LoginRequest(String username, String password) {
 		
 		this.username = username;
